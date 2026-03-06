@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的待办清单</title>
+    <style>
+        /* 全局样式 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* 容器样式 */
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* 标题样式 */
+        h1 {
+            text-align: center;
+            color: #3498db;
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        /* 输入区域样式 */
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        input[type="text"]:focus {
+            border-color: #3498db;
+        }
+        
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .add-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .add-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        /* 任务列表样式 */
+        .todo-list {
+            list-style: none;
+        }
+        
+        .todo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s ease;
+        }
+        
+        .todo-item:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .todo-content {
+            flex: 1;
+            font-size: 16px;
+        }
+        
+        /* 完成状态的任务样式 */
+        .todo-content.completed {
+            text-decoration: line-through;
+            color: #999;
+        }
+        
+        .todo-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .complete-btn {
+            background-color: #2ecc71;
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+        
+        .complete-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+        
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        /* 清空已完成按钮样式 */
+        .clear-completed {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .clear-btn {
+            background-color: #95a5a6;
+            color: white;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+        
+        .clear-btn:hover {
+            background-color: #7f8c8d;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 375px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+            
+            .input-section {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+            
+            .todo-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .todo-actions {
+                align-self: flex-end;
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 页面标题 -->
+        <h1>我的待办清单</h1>
+        
+        <!-- 输入区域 -->
+        <div class="input-section">
+            <input type="text" placeholder="输入新任务...">
+            <button class="add-btn">添加</button>
+        </div>
+        
+        <!-- 任务列表 -->
+        <ul class="todo-list">
+            <!-- 任务项 1 -->
+            <li class="todo-item">
+                <span class="todo-content">完成项目报告</span>
+                <div class="todo-actions">
+                    <button class="complete-btn">完成</button>
+                    <button class="delete-btn">删除</button>
+                </div>
+            </li>
+            
+            <!-- 任务项 2 -->
+            <li class="todo-item">
+                <span class="todo-content">买牛奶</span>
+                <div class="todo-actions">
+                    <button class="complete-btn">完成</button>
+                    <button class="delete-btn">删除</button>
+                </div>
+            </li>
+            
+            <!-- 任务项 3 -->
+            <li class="todo-item">
+                <span class="todo-content">给妈妈打电话</span>
+                <div class="todo-actions">
+                    <button class="complete-btn">完成</button>
+                    <button class="delete-btn">删除</button>
+                </div>
+            </li>
+        </ul>
+        
+        <!-- 清空已完成按钮 -->
+        <div class="clear-completed">
+            <button class="clear-btn" style="display: none;">清空已完成</button>
+        </div>
+    </div>
+    <script>
+        // 等待DOM加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取DOM元素
+            const inputField = document.querySelector('input[type="text"]');
+            const addButton = document.querySelector('.add-btn');
+            const todoList = document.querySelector('.todo-list');
+            const clearBtn = document.querySelector('.clear-btn');
+            
+            // 检查是否有已完成任务，控制清空按钮显示
+            function checkCompletedTasks() {
+                const completedTasks = document.querySelectorAll('.todo-content.completed');
+                if (completedTasks.length > 0) {
+                    clearBtn.style.display = 'inline-block';
+                } else {
+                    clearBtn.style.display = 'none';
+                }
+            }
+            
+            // 保存任务列表到localStorage
+            function saveTodoList() {
+                const tasks = [];
+                // 遍历所有任务项
+                document.querySelectorAll('.todo-item').forEach(function(item) {
+                    const content = item.querySelector('.todo-content').textContent;
+                    const completed = item.querySelector('.todo-content').classList.contains('completed');
+                    // 将任务信息添加到数组
+                    tasks.push({ content, completed });
+                });
+                // 将任务数组转换为JSON字符串并保存到localStorage
+                localStorage.setItem('todoList', JSON.stringify(tasks));
+            }
+            
+            // 从localStorage读取任务列表
+            function loadTodoList() {
+                // 从localStorage获取保存的任务数据
+                const savedTasks = localStorage.getItem('todoList');
+                if (savedTasks) {
+                    // 清空当前任务列表
+                    todoList.innerHTML = '';
+                    // 解析JSON字符串为任务数组
+                    const tasks = JSON.parse(savedTasks);
+                    // 遍历任务数组，创建任务项
+                    tasks.forEach(function(task) {
+                        createTodoItem(task.content, task.completed);
+                    });
+                }
+            }
+            
+            // 创建任务项的函数
+            function createTodoItem(content, completed = false) {
+                // 创建新任务项
+                const todoItem = document.createElement('li');
+                todoItem.className = 'todo-item';
+                
+                // 创建任务内容
+                const todoContent = document.createElement('span');
+                todoContent.className = 'todo-content';
+                todoContent.textContent = content;
+                // 如果任务已完成，添加completed类
+                if (completed) {
+                    todoContent.classList.add('completed');
+                }
+                
+                // 创建操作按钮容器
+                const todoActions = document.createElement('div');
+                todoActions.className = 'todo-actions';
+                
+                // 创建完成按钮
+                const completeBtn = document.createElement('button');
+                completeBtn.className = 'complete-btn';
+                completeBtn.textContent = completed ? '取消' : '完成';
+                
+                // 添加完成按钮点击事件（切换完成状态）
+                completeBtn.addEventListener('click', function() {
+                    // 切换任务完成状态
+                    const isCompleted = todoContent.classList.contains('completed');
+                    
+                    if (isCompleted) {
+                        // 取消完成状态
+                        todoContent.classList.remove('completed');
+                        completeBtn.textContent = '完成';
+                        // 移到列表顶部
+                        todoList.insertBefore(todoItem, todoList.firstChild);
+                    } else {
+                        // 标记为完成状态
+                        todoContent.classList.add('completed');
+                        completeBtn.textContent = '取消';
+                        // 移到列表底部
+                        todoList.appendChild(todoItem);
+                    }
+                    
+                    // 检查已完成任务，更新清空按钮显示状态
+                    checkCompletedTasks();
+                    // 保存任务列表
+                    saveTodoList();
+                });
+                
+                // 创建删除按钮
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.textContent = '删除';
+                
+                // 添加删除按钮点击事件
+                deleteBtn.addEventListener('click', function() {
+                    // 删除当前任务项
+                    todoList.removeChild(todoItem);
+                    // 检查已完成任务，更新清空按钮显示状态
+                    checkCompletedTasks();
+                    // 保存任务列表
+                    saveTodoList();
+                });
+                
+                // 组装任务项
+                todoActions.appendChild(completeBtn);
+                todoActions.appendChild(deleteBtn);
+                todoItem.appendChild(todoContent);
+                todoItem.appendChild(todoActions);
+                
+                // 添加到任务列表的最前面
+                todoList.insertBefore(todoItem, todoList.firstChild);
+            }
+            
+            // 添加按钮点击事件监听
+            addButton.addEventListener('click', function() {
+                // 获取输入框内容并去除首尾空格
+                const taskText = inputField.value.trim();
+                
+                // 检查输入是否为空
+                if (taskText) {
+                    // 使用createTodoItem函数创建任务项
+                    createTodoItem(taskText);
+                    
+                    // 清空输入框
+                    inputField.value = '';
+                    
+                    // 检查已完成任务，更新清空按钮显示状态
+                    checkCompletedTasks();
+                    // 保存任务列表
+                    saveTodoList();
+                }
+            });
+            
+            // 支持回车键添加任务
+            inputField.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    addButton.click();
+                }
+            });
+            
+            // 为现有的静态任务项添加删除功能
+            const existingDeleteBtns = document.querySelectorAll('.delete-btn');
+            existingDeleteBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    // 获取当前删除按钮所在的任务项
+                    const taskItem = this.closest('.todo-item');
+                    // 删除任务项
+                    todoList.removeChild(taskItem);
+                    // 检查已完成任务，更新清空按钮显示状态
+                    checkCompletedTasks();
+                    // 保存任务列表
+                    saveTodoList();
+                });
+            });
+            
+            // 为现有的静态任务项添加完成功能
+            const existingCompleteBtns = document.querySelectorAll('.complete-btn');
+            existingCompleteBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    // 获取当前完成按钮所在的任务项
+                    const taskItem = this.closest('.todo-item');
+                    const todoContent = taskItem.querySelector('.todo-content');
+                    
+                    // 切换任务完成状态
+                    const isCompleted = todoContent.classList.contains('completed');
+                    
+                    if (isCompleted) {
+                        // 取消完成状态
+                        todoContent.classList.remove('completed');
+                        btn.textContent = '完成';
+                        // 移到列表顶部
+                        todoList.insertBefore(taskItem, todoList.firstChild);
+                    } else {
+                        // 标记为完成状态
+                        todoContent.classList.add('completed');
+                        btn.textContent = '取消';
+                        // 移到列表底部
+                        todoList.appendChild(taskItem);
+                    }
+                    
+                    // 检查已完成任务，更新清空按钮显示状态
+                    checkCompletedTasks();
+                    // 保存任务列表
+                    saveTodoList();
+                });
+            });
+            
+            // 清空已完成按钮点击事件
+            clearBtn.addEventListener('click', function() {
+                // 获取所有已完成的任务
+                const completedTasks = document.querySelectorAll('.todo-content.completed');
+                // 删除每个已完成的任务
+                completedTasks.forEach(function(task) {
+                    const taskItem = task.closest('.todo-item');
+                    todoList.removeChild(taskItem);
+                });
+                // 检查已完成任务，更新清空按钮显示状态
+                checkCompletedTasks();
+                // 保存任务列表
+                saveTodoList();
+            });
+            
+            // 页面加载时从localStorage读取任务列表
+            loadTodoList();
+            
+            // 检查已完成任务，更新清空按钮显示状态
+            checkCompletedTasks();
+        });
+    </script>
+</body>
+</html>
